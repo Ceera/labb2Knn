@@ -1,4 +1,3 @@
-# labb2Knn
 rm(list=ls())
 graphics.off()
 library(class)
@@ -9,13 +8,13 @@ data(Glass)
 
 print(Glass)
 
-#Delar upp datat i två delar, man vill arbeta med ca 70% till träning och 30% sparat till testet
+#Delar upp datat i två delar, man brukar arbeta med ca 70% till träning och 30% sparat till testet
 ind50 <- sample(2, nrow(Glass), replace=TRUE, prob=c(1/2, 1/2))
 ind66 <- sample(2, nrow(Glass), replace=TRUE, prob=c(2/3, 1/3))
 ind75 <- sample(2, nrow(Glass), replace=TRUE, prob=c(3/4, 1/4))
 
 
-## did we get the distribution ~2/3 and 1/3?
+# Kollar så fördelningen blev rätt
 length(ind50[ind50==1]) #training data 
 length(ind50[ind50==2]) #test data
 length(ind66[ind66==1]) #training data 
@@ -24,7 +23,7 @@ length(ind75[ind75==1]) #training data
 length(ind75[ind75==2]) #test data
 nrow(Glass)
 
-## create the training vectors and test vectors
+## Skapar variabler som håller de olika datasetten
 ## 50%
 Glass.training50 <- Glass[ind50==1, 1:9]
 Glass.test50 <- Glass[ind50==2, 1:9] 
@@ -37,7 +36,7 @@ Glass.test66 <- Glass[ind66==2, 1:9]
 Glass.training75 <- Glass[ind75==1, 1:9]
 Glass.test75 <- Glass[ind75==2, 1:9] 
 
-## create the target values, i.e species/klasser
+## Skapar upp klasser (namnen på typerna)
 # 50%
 Glass.trainLabels50 <- Glass[ind50==1, 10]
 Glass.testLabels50 <- Glass[ind50==2, 10]
@@ -117,11 +116,11 @@ accuracy75
 #################KNN##############################################################################
 
 #Sätter gränsen för närmaste grannen reglen till 5
-classifiedData50 <- knn(train = Glass.training50, test = Glass.test50, cl = Glass.trainLabels50, k=5)
+classifiedData50 <- knn(train = Glass.training50, test = Glass.test50, cl = Glass.trainLabels50, k=7)
 
-classifiedData66 <- knn(train = Glass.training66, test = Glass.test66, cl = Glass.trainLabels66, k=5)
+classifiedData66 <- knn(train = Glass.training66, test = Glass.test66, cl = Glass.trainLabels66, k=7)
 
-classifiedData75 <- knn(train = Glass.training75, test = Glass.test75, cl = Glass.trainLabels75, k=5)
+classifiedData75 <- knn(train = Glass.training75, test = Glass.test75, cl = Glass.trainLabels75, k=7)
 
 #################   Kör knn 7 med de olika % satserna:  #############################################
 
@@ -146,13 +145,10 @@ confusion75
 accuracy75 <- (sum(diag(confusion75))/sum(confusion75) )* 100
 accuracy75
 
-####################################################################################################
+################################################################################################
+#####SLUT PÅ DEL 1 Körning av Knn (utan normalizering eller standardisering) med olika % #######
 
-#####SLUT PÅ DEL 1 Körning av Knn (utan normalizering eller standardisering) med olika % #######################################################
-
-###################################################################################################
-
-
+###############################################################################################
 
 
 ####-----------STANDARNDISERAT DATA--------------####
