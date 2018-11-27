@@ -1,153 +1,155 @@
-rm(list=ls()) graphics.off() library(class) library(mlbench) data(Glass)
+rm(list=ls())
+graphics.off()
+library(class)
+library(mlbench)
+data(Glass)
 
 #set.seed(987)
 
 print(Glass)
 
-#Delar upp datat i två delar, man brukar arbeta med ca 70% till träning och 30% sparat till testet ind50 <- sample(2, nrow(Glass), replace=TRUE, prob=c(1/2, 1/2)) ind66 <- sample(2, nrow(Glass), replace=TRUE, prob=c(2/3, 1/3)) ind75 <- sample(2, nrow(Glass), replace=TRUE, prob=c(3/4, 1/4))
-Kollar så fördelningen blev rätt
+#Delar upp datat i två delar, man brukar arbeta med ca 70% till träning och 30% sparat till testet
+ind50 <- sample(2, nrow(Glass), replace=TRUE, prob=c(1/2, 1/2))
+ind66 <- sample(2, nrow(Glass), replace=TRUE, prob=c(2/3, 1/3))
+ind75 <- sample(2, nrow(Glass), replace=TRUE, prob=c(3/4, 1/4))
 
-length(ind50[ind50==1]) #training data length(ind50[ind50==2]) #test data length(ind66[ind66==1]) #training data length(ind66[ind66==2]) #test data length(ind75[ind75==1]) #training data length(ind75[ind75==2]) #test data nrow(Glass)
-Skapar variabler som håller de olika datasetten
-50%
 
-Glass.training50 <- Glass[ind50==1, 1:9] Glass.test50 <- Glass[ind50==2, 1:9]
-60%
+# Kollar så fördelningen blev rätt
+length(ind50[ind50==1]) #training data 
+length(ind50[ind50==2]) #test data
+length(ind66[ind66==1]) #training data 
+length(ind66[ind66==2]) #test data
+length(ind75[ind75==1]) #training data 
+length(ind75[ind75==2]) #test data
+nrow(Glass)
 
-Glass.training66 <- Glass[ind66==1, 1:9] Glass.test66 <- Glass[ind66==2, 1:9]
-75%
+## Skapar variabler som håller de olika datasetten
+## 50%
+Glass.training50 <- Glass[ind50==1, 1:9]
+Glass.test50 <- Glass[ind50==2, 1:9] 
 
-Glass.training75 <- Glass[ind75==1, 1:9] Glass.test75 <- Glass[ind75==2, 1:9]
-Skapar upp klasser (namnen på typerna)
-50%
+## 60%
+Glass.training66 <- Glass[ind66==1, 1:9]
+Glass.test66 <- Glass[ind66==2, 1:9] 
 
-Glass.trainLabels50 <- Glass[ind50==1, 10] Glass.testLabels50 <- Glass[ind50==2, 10]
-66%
+## 75%
+Glass.training75 <- Glass[ind75==1, 1:9]
+Glass.test75 <- Glass[ind75==2, 1:9] 
 
-Glass.trainLabels66 <- Glass[ind66==1, 10] Glass.testLabels66 <- Glass[ind66==2, 10]
-75%
+## Skapar upp klasser (namnen på typerna)
+# 50%
+Glass.trainLabels50 <- Glass[ind50==1, 10]
+Glass.testLabels50 <- Glass[ind50==2, 10]
 
-Glass.trainLabels75 <- Glass[ind75==1, 10] Glass.testLabels75 <- Glass[ind75==2, 10]
+# 66%
+Glass.trainLabels66 <- Glass[ind66==1, 10]
+Glass.testLabels66 <- Glass[ind66==2, 10]
+
+# 75%
+Glass.trainLabels75 <- Glass[ind75==1, 10]
+Glass.testLabels75 <- Glass[ind75==2, 10]
 
 #################KNN##############################################################################
 
-#Sätter gränsen för närmaste grannen reglen till 3 classifiedData50 <- knn(train = Glass.training50, test = Glass.test50, cl = Glass.trainLabels50, k=3)
+#Sätter gränsen för närmaste grannen reglen till 3
+classifiedData50 <- knn(train = Glass.training50, test = Glass.test50, cl = Glass.trainLabels50, k=3)
 
 classifiedData66 <- knn(train = Glass.training66, test = Glass.test66, cl = Glass.trainLabels66, k=3)
 
 classifiedData75 <- knn(train = Glass.training75, test = Glass.test75, cl = Glass.trainLabels75, k=3)
 
-################# Kör knn 3 med de olika % satserna: #############################################
-#Visar i en tabel hur det gick för programmet att gissa. confusion50 <- table(Target = Glass.testLabels50, Predicted = classifiedData75) confusion50
-Visar upp i % hur många gånger programet kunde gissa rätt
+#################   Kör knn 3 med de olika % satserna:  #############################################  
+#Visar i en tabel hur det gick för programmet att gissa. 
+confusion50 <- table(Target = Glass.testLabels50, Predicted = classifiedData75)
+confusion50
+# Visar upp i % hur många gånger programet kunde gissa rätt
+accuracy50 <- (sum(diag(confusion50))/sum(confusion50) )* 100
+accuracy50
 
-accuracy50 <- (sum(diag(confusion50))/sum(confusion50) )* 100 accuracy50
+#Visar i en tabel hur det gick för programmet att gissa. 
+confusion66 <- table(Target = Glass.testLabels66, Predicted = classifiedData66)
+confusion66
+# Visar upp i % hur många gånger programet kunde gissa rätt
+accuracy66 <- (sum(diag(confusion66))/sum(confusion66) )* 100
+accuracy66
 
-#Visar i en tabel hur det gick för programmet att gissa. confusion66 <- table(Target = Glass.testLabels66, Predicted = classifiedData66) confusion66
-Visar upp i % hur många gånger programet kunde gissa rätt
-
-accuracy66 <- (sum(diag(confusion66))/sum(confusion66) )* 100 accuracy66
-
-#Visar i en tabel hur det gick för programmet att gissa. confusion75 <- table(Target = Glass.testLabels75, Predicted = classifiedData75) confusion75
-Visar upp i % hur många gånger programet kunde gissa rätt
-
-accuracy75 <- (sum(diag(confusion75))/sum(confusion75) )* 100 accuracy75
+#Visar i en tabel hur det gick för programmet att gissa. 
+confusion75 <- table(Target = Glass.testLabels75, Predicted = classifiedData75)
+confusion75
+# Visar upp i % hur många gånger programet kunde gissa rätt
+accuracy75 <- (sum(diag(confusion75))/sum(confusion75) )* 100
+accuracy75
 
 #################KNN##############################################################################
 
-#Sätter gränsen för närmaste grannen reglen till 5 classifiedData50 <- knn(train = Glass.training50, test = Glass.test50, cl = Glass.trainLabels50, k=5)
+#Sätter gränsen för närmaste grannen reglen till 5
+classifiedData50 <- knn(train = Glass.training50, test = Glass.test50, cl = Glass.trainLabels50, k=5)
 
 classifiedData66 <- knn(train = Glass.training66, test = Glass.test66, cl = Glass.trainLabels66, k=5)
 
 classifiedData75 <- knn(train = Glass.training75, test = Glass.test75, cl = Glass.trainLabels75, k=5)
 
-################# Kör knn 5 med de olika % satserna: #############################################
+#################   Kör knn 5 med de olika % satserna:  #############################################
 
-confusion50 <- table(Target = Glass.testLabels50, Predicted = classifiedData50) confusion50
-Visar upp i % hur många gånger programet kunde gissa rätt
 
-accuracy50 <- (sum(diag(confusion50))/sum(confusion50) )* 100 accuracy50
+confusion50 <- table(Target = Glass.testLabels50, Predicted = classifiedData50)
+confusion50
+# Visar upp i % hur många gånger programet kunde gissa rätt
+accuracy50 <- (sum(diag(confusion50))/sum(confusion50) )* 100
+accuracy50
 
-#Visar i en tabel hur det gick för programmet att gissa. confusion66 <- table(Target = Glass.testLabels66, Predicted = classifiedData66) confusion66
-Visar upp i % hur många gånger programet kunde gissa rätt
+#Visar i en tabel hur det gick för programmet att gissa. 
+confusion66 <- table(Target = Glass.testLabels66, Predicted = classifiedData66)
+confusion66
+# Visar upp i % hur många gånger programet kunde gissa rätt
+accuracy66 <- (sum(diag(confusion66))/sum(confusion66) )* 100
+accuracy66
 
-accuracy66 <- (sum(diag(confusion66))/sum(confusion66) )* 100 accuracy66
+#Visar i en tabel hur det gick för programmet att gissa. 
+confusion75 <- table(Target = Glass.testLabels75, Predicted = classifiedData75)
+confusion75
+# Visar upp i % hur många gånger programet kunde gissa rätt
+accuracy75 <- (sum(diag(confusion75))/sum(confusion75) )* 100
+accuracy75
 
-#Visar i en tabel hur det gick för programmet att gissa. confusion75 <- table(Target = Glass.testLabels75, Predicted = classifiedData75) confusion75
-Visar upp i % hur många gånger programet kunde gissa rätt
-
-accuracy75 <- (sum(diag(confusion75))/sum(confusion75) )* 100 accuracy75
 
 #################KNN##############################################################################
 
-#Sätter gränsen för närmaste grannen reglen till 5 classifiedData50 <- knn(train = Glass.training50, test = Glass.test50, cl = Glass.trainLabels50, k=7)
+#Sätter gränsen för närmaste grannen reglen till 5
+classifiedData50 <- knn(train = Glass.training50, test = Glass.test50, cl = Glass.trainLabels50, k=7)
 
 classifiedData66 <- knn(train = Glass.training66, test = Glass.test66, cl = Glass.trainLabels66, k=7)
 
 classifiedData75 <- knn(train = Glass.training75, test = Glass.test75, cl = Glass.trainLabels75, k=7)
 
-################# Kör knn 7 med de olika % satserna: #############################################
+#################   Kör knn 7 med de olika % satserna:  #############################################
 
-confusion50 <- table(Target = Glass.testLabels50, Predicted = classifiedData50) confusion50
-Visar upp i % hur många gånger programet kunde gissa rätt
 
-accuracy50 <- (sum(diag(confusion50))/sum(confusion50) )* 100 accuracy50
+confusion50 <- table(Target = Glass.testLabels50, Predicted = classifiedData50)
+confusion50
+# Visar upp i % hur många gånger programet kunde gissa rätt
+accuracy50 <- (sum(diag(confusion50))/sum(confusion50) )* 100
+accuracy50
 
-#Visar i en tabel hur det gick för programmet att gissa. confusion66 <- table(Target = Glass.testLabels66, Predicted = classifiedData66) confusion66
-Visar upp i % hur många gånger programet kunde gissa rätt
+#Visar i en tabel hur det gick för programmet att gissa. 
+confusion66 <- table(Target = Glass.testLabels66, Predicted = classifiedData66)
+confusion66
+# Visar upp i % hur många gånger programet kunde gissa rätt
+accuracy66 <- (sum(diag(confusion66))/sum(confusion66) )* 100
+accuracy66
 
-accuracy66 <- (sum(diag(confusion66))/sum(confusion66) )* 100 accuracy66
+#Visar i en tabel hur det gick för programmet att gissa. 
+confusion75 <- table(Target = Glass.testLabels75, Predicted = classifiedData75)
+confusion75
+# Visar upp i % hur många gånger programet kunde gissa rätt
+accuracy75 <- (sum(diag(confusion75))/sum(confusion75) )* 100
+accuracy75
 
-#Visar i en tabel hur det gick för programmet att gissa. confusion75 <- table(Target = Glass.testLabels75, Predicted = classifiedData75) confusion75
-Visar upp i % hur många gånger programet kunde gissa rätt
-
-accuracy75 <- (sum(diag(confusion75))/sum(confusion75) )* 100 accuracy75
-
-################################################################################################ #####SLUT PÅ DEL 1 Körning av Knn (utan normalizering eller standardisering) med olika % #######
+################################################################################################
+#####SLUT PÅ DEL 1 Körning av Knn (utan normalizering eller standardisering) med olika % #######
 
 ###############################################################################################
 
-####-----------STANDARNDISERAT DATA--------------####
-
-standard.features <- scale(Glass[,9:1]) stdData <- cbind(standard.features,Glass[10]) anyNA(stdData) head(stdData)
-
-#Delar upp i olika delar standard66 <- sample(1:nrow(stdData),as.integer(0.66nrow(stdData))) standard75 <- sample(1:nrow(stdData),as.integer(0.75nrow(stdData))) standard50 <- sample(1:nrow(stdData),as.integer(0.50*nrow(stdData)))
-
-#Train 50%, Test 50% stdTrain50 <- stdData[standard50,] stdTest50 <- stdData[-standard50,]
-
-#Train 2/3 ca 66%, Test 1/3 ca 34% stdTrain66 <- stdData[standard66,] stdTest66 <- stdData[-standard66,]
-
-#Train 75%, Test 25% stdTrain75 <- stdData[standard75,] stdTest75 <- stdData[-standard75,]
-
-#K = 3 ###50 % Train pred <- knn(stdTrain50[,-10],stdTest50[,-10],stdTrain50[,10],k=3) confus50 <- print(table(Target = pred,Prediction = stdTest50[,10])) accuracyStand50 <- (sum(diag(confus50))/sum(confus50))*100 accuracyStand50
-
-###66 % Train pred <- knn(stdTrain66[,-10],stdTest66[,-10],stdTrain66[,10],k=3) confus66 <- print(table(Target = pred,Prediction = stdTest66[,10])) accuracyStand66 <- (sum(diag(confus66))/sum(confus66))*100 accuracyStand66
-
-###75% Train pred <- knn(stdTrain75[,-10],stdTest75[,-10],stdTrain75[,10],k=3) confus75 <- print(table(Target = pred,Prediction = stdTest75[,10])) accuracyStand75 <- (sum(diag(confus75))/sum(confus75))*100 accuracyStand75
-
-#K = 5
-50% Train
-
-pred <- knn(stdTrain50[,-10],stdTest50[,-10],stdTrain50[,10],k=5) confus50 <- print(table(Target = pred,Prediction = stdTest50[,10])) accuracyStand50 <- (sum(diag(confus50))/sum(confus50))*100 accuracyStand50
-66% Train
-
-pred <- knn(stdTrain66[,-10],stdTest66[,-10],stdTrain66[,10],k=5) confus66 <- print(table(Target = pred,Prediction = stdTest66[,10])) accuracyStand66 <- (sum(diag(confus66))/sum(confus66))*100 accuracyStand66
-75% Train
-
-pred <- knn(stdTrain75[,-10],stdTest75[,-10],stdTrain75[,10],k=5) confus75 <- print(table(Target = pred,Prediction = stdTest75[,10])) accuracyStand75 <- (sum(diag(confus75))/sum(confus75))*100 accuracyStand75
-
-#K = 7
-50%
-
-pred <- knn(stdTrain50[,-10],stdTest50[,-10],stdTrain50[,10],k=7) confus50 <- print(table(Target = pred,Prediction = stdTest50[,10])) accuracyStand50 <- (sum(diag(confus50))/sum(confus50))*100 accuracyStand50
-66%
-
-pred <- knn(stdTrain66[,-10],stdTest66[,-10],stdTrain66[,10],k=7) confus66 <- print(table(Target = pred,Prediction = stdTest66[,10])) accuracyStand66 <- (sum(diag(confus66))/sum(confus66))*100 accuracyStand66
-75%
-
-pred <- knn(stdTrain75[,-10],stdTest75[,-10],stdTrain75[,10],k=7) confus75 <- print(table(Target = pred,Prediction = stdTest75[,10])) accuracyStand75 <- (sum(diag(confus75))/sum(confus75))*100 accuracyStand75
-
-########### SLUT DEL 2 Standalisering ########################
 
 #### DEL 2 Standardisera glass data och kör med de lika % och med olika kNN 3-5-7####
 
@@ -310,7 +312,7 @@ classifiedData75 <- knn(train = Glass.Nrmtraining75, test = Glass.Nrmtest75, cl 
 
 #################   Kör knn 3 med de olika % satserna:  #############################################  
 #Visar i en tabel hur det gick för programmet att gissa. 
-confusionNrm50 <- table(Target = Glass.NrmtestLabels50, Predicted = classifiedData75)
+confusionNrm50 <- table(Target = Glass.NrmtestLabels50, Predicted = classifiedData50)
 confusionNrm50
 # Visar upp i % hur många gånger programet kunde gissa rätt
 accuracyNrm50 <- (sum(diag(confusionNrm50))/sum(confusionNrm50) )* 100
@@ -342,7 +344,7 @@ classifiedData75 <- knn(train = Glass.Nrmtraining75, test = Glass.Nrmtest75, cl 
 #################   Kör knn 5 med de olika % satserna:  #############################################
 
 #Visar i en tabel hur det gick för programmet att gissa. 
-confusionNrm50 <- table(Target = Glass.NrmtestLabels50, Predicted = classifiedData75)
+confusionNrm50 <- table(Target = Glass.NrmtestLabels50, Predicted = classifiedData50)
 confusionNrm50
 # Visar upp i % hur många gånger programet kunde gissa rätt
 accuracyNrm50 <- (sum(diag(confusionNrm50))/sum(confusionNrm50) )* 100
@@ -376,7 +378,7 @@ classifiedData75 <- knn(train = Glass.Nrmtraining75, test = Glass.Nrmtest75, cl 
 
 
 #Visar i en tabel hur det gick för programmet att gissa. 
-confusionNrm50 <- table(Target = Glass.NrmtestLabels50, Predicted = classifiedData75)
+confusionNrm50 <- table(Target = Glass.NrmtestLabels50, Predicted = classifiedData50)
 confusionNrm50
 # Visar upp i % hur många gånger programet kunde gissa rätt
 accuracyNrm50 <- (sum(diag(confusionNrm50))/sum(confusionNrm50) )* 100
