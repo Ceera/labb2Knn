@@ -151,23 +151,33 @@ accuracy75
 ###############################################################################################
 
 
-####-----------STANDARNDISERAT DATA--------------####
 
+
+
+
+#### DEL 2 Standardisera glass data och kör med de lika % och med olika kNN 3-5-7####
+
+# Gör om allt data i glass till standardiserat data
 standard.features <- scale(Glass[,9:1])
 stdData <- cbind(standard.features,Glass[10])
+
+#kollar att värderna kom med
 anyNA(stdData)
 head(stdData)
 
-#Delar upp i olika delar
+#Delar upp i de olika % fördelningarna
+standard50 <- sample(1:nrow(stdData),as.integer(0.50*nrow(stdData)))
 standard66 <- sample(1:nrow(stdData),as.integer(0.66*nrow(stdData)))
 standard75 <- sample(1:nrow(stdData),as.integer(0.75*nrow(stdData)))
-standard50 <- sample(1:nrow(stdData),as.integer(0.50*nrow(stdData)))
 
-#Train 50%, Test 50%
+
+#Lägger in de olika datasetten i respektiva variabel: 
+
+#Train50%, Test 50%
 stdTrain50 <- stdData[standard50,]
 stdTest50 <- stdData[-standard50,]
 
-#Train 2/3 ca 66%, Test 1/3 ca 34%
+#Train 66%, Test 34%
 stdTrain66 <- stdData[standard66,]
 stdTest66 <- stdData[-standard66,]
 
@@ -175,71 +185,70 @@ stdTest66 <- stdData[-standard66,]
 stdTrain75 <- stdData[standard75,]
 stdTest75 <- stdData[-standard75,]
 
+#Kör de olika kNN delarna respektive % sats
+
 #K = 3 
-###50 % Train
+###50% 
 pred <- knn(stdTrain50[,-10],stdTest50[,-10],stdTrain50[,10],k=3)
-confus50 <- print(table(Target = pred,Prediction = stdTest50[,10]))
-accuracyStand50 <- (sum(diag(confus50))/sum(confus50))*100
+confusionStd50 <- print(table(Target = pred,Prediction = stdTest50[,10]))
+accuracyStand50 <- (sum(diag(confusionStd50))/sum(confusionStd50))*100
 accuracyStand50
 
-###66 % Train
+###66% 
 pred <- knn(stdTrain66[,-10],stdTest66[,-10],stdTrain66[,10],k=3)
-confus66 <- print(table(Target = pred,Prediction = stdTest66[,10]))
-accuracyStand66 <- (sum(diag(confus66))/sum(confus66))*100
+confusionStd66 <- print(table(Target = pred,Prediction = stdTest66[,10]))
+accuracyStand66 <- (sum(diag(confusionStd66))/sum(confusionStd66))*100
 accuracyStand66
 
-###75% Train
+###75% 
 pred <- knn(stdTrain75[,-10],stdTest75[,-10],stdTrain75[,10],k=3)
-confus75 <- print(table(Target = pred,Prediction = stdTest75[,10]))
-accuracyStand75 <- (sum(diag(confus75))/sum(confus75))*100
+confusionStd75 <- print(table(Target = pred,Prediction = stdTest75[,10]))
+accuracyStand75 <- (sum(diag(confusionStd75))/sum(confusionStd75))*100
 accuracyStand75
-
 
 
 #K = 5 
 
 # 50% Train
 pred <- knn(stdTrain50[,-10],stdTest50[,-10],stdTrain50[,10],k=5)
-confus50 <- print(table(Target = pred,Prediction = stdTest50[,10]))
-accuracyStand50 <- (sum(diag(confus50))/sum(confus50))*100
+confusionStd50 <- print(table(Target = pred,Prediction = stdTest50[,10]))
+accuracyStand50 <- (sum(diag(confusionStd50))/sum(confusionStd50))*100
 accuracyStand50
 
 # 66% Train
 pred <- knn(stdTrain66[,-10],stdTest66[,-10],stdTrain66[,10],k=5)
-confus66 <- print(table(Target = pred,Prediction = stdTest66[,10]))
-accuracyStand66 <- (sum(diag(confus66))/sum(confus66))*100
+confusionStd66 <- print(table(Target = pred,Prediction = stdTest66[,10]))
+accuracyStand66 <- (sum(diag(confusionStd66))/sum(confusionStd66))*100
 accuracyStand66
 
 # 75% Train
 pred <- knn(stdTrain75[,-10],stdTest75[,-10],stdTrain75[,10],k=5)
-confus75 <- print(table(Target = pred,Prediction = stdTest75[,10]))
-accuracyStand75 <- (sum(diag(confus75))/sum(confus75))*100
+confusionStd75 <- print(table(Target = pred,Prediction = stdTest75[,10]))
+accuracyStand75 <- (sum(diag(confusionStd75))/sum(confusionStd75))*100
 accuracyStand75
-
 
 
 #K = 7 
 
 # 50%
 pred <- knn(stdTrain50[,-10],stdTest50[,-10],stdTrain50[,10],k=7)
-confus50 <- print(table(Target = pred,Prediction = stdTest50[,10]))
-accuracyStand50 <- (sum(diag(confus50))/sum(confus50))*100
+confusionStd50 <- print(table(Target = pred,Prediction = stdTest50[,10]))
+accuracyStand50 <- (sum(diag(confusionStd50))/sum(confusionStd50))*100
 accuracyStand50
 
 # 66%
 pred <- knn(stdTrain66[,-10],stdTest66[,-10],stdTrain66[,10],k=7)
-confus66 <- print(table(Target = pred,Prediction = stdTest66[,10]))
-accuracyStand66 <- (sum(diag(confus66))/sum(confus66))*100
+confusionStd66<- print(table(Target = pred,Prediction = stdTest66[,10]))
+accuracyStand66 <- (sum(diag(confusionStd66))/sum(confusionStd66))*100
 accuracyStand66
 
 # 75%
 pred <- knn(stdTrain75[,-10],stdTest75[,-10],stdTrain75[,10],k=7)
-confus75 <- print(table(Target = pred,Prediction = stdTest75[,10]))
-accuracyStand75 <- (sum(diag(confus75))/sum(confus75))*100
+confusionStd75 <- print(table(Target = pred,Prediction = stdTest75[,10]))
+accuracyStand75 <- (sum(diag(confusionStd75))/sum(confusionStd75))*100
 accuracyStand75
 
 ###########  SLUT DEL 2   Standalisering ########################
-
 
 ####-------------INTE NORMALISERAT-------------####
 
