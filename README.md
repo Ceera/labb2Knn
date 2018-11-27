@@ -155,8 +155,8 @@ accuracy75
 
 standard.features <- scale(Glass[,9:1])
 stdData <- cbind(standard.features,Glass[10])
-anyNA(standardData)
-head(standardData)
+anyNA(stdData)
+head(stdData)
 
 #Delar upp i olika delar
 standard66 <- sample(1:nrow(stdData),as.integer(0.66*nrow(stdData)))
@@ -175,8 +175,7 @@ stdTest66 <- stdData[-standard66,]
 stdTrain75 <- stdData[standard75,]
 stdTest75 <- stdData[-standard75,]
 
-#K = 3 ----------------------
-
+#K = 3 
 ###50 % Train
 pred <- knn(stdTrain50[,-10],stdTest50[,-10],stdTrain50[,10],k=3)
 confus50 <- print(table(Target = pred,Prediction = stdTest50[,10]))
@@ -197,7 +196,7 @@ accuracyStand75
 
 
 
-#K = 5 -----------------------
+#K = 5 
 
 # 50% Train
 pred <- knn(stdTrain50[,-10],stdTest50[,-10],stdTrain50[,10],k=5)
@@ -219,26 +218,27 @@ accuracyStand75
 
 
 
-#K = 9 -----------------------
-
+#K = 7 
 
 # 50%
-pred <- knn(stdTrain50[,-10],stdTest50[,-10],stdTrain50[,10],k=9)
+pred <- knn(stdTrain50[,-10],stdTest50[,-10],stdTrain50[,10],k=7)
 confus50 <- print(table(Target = pred,Prediction = stdTest50[,10]))
 accuracyStand50 <- (sum(diag(confus50))/sum(confus50))*100
 accuracyStand50
 
 # 66%
-pred <- knn(stdTrain66[,-10],stdTest66[,-10],stdTrain66[,10],k=9)
+pred <- knn(stdTrain66[,-10],stdTest66[,-10],stdTrain66[,10],k=7)
 confus66 <- print(table(Target = pred,Prediction = stdTest66[,10]))
 accuracyStand66 <- (sum(diag(confus66))/sum(confus66))*100
 accuracyStand66
 
 # 75%
-pred <- knn(stdTrain75[,-10],stdTest75[,-10],stdTrain75[,10],k=9)
+pred <- knn(stdTrain75[,-10],stdTest75[,-10],stdTrain75[,10],k=7)
 confus75 <- print(table(Target = pred,Prediction = stdTest75[,10]))
 accuracyStand75 <- (sum(diag(confus75))/sum(confus75))*100
 accuracyStand75
+
+###########  SLUT DEL 2   Standalisering ########################
 
 
 ####-------------INTE NORMALISERAT-------------####
