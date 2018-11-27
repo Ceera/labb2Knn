@@ -60,7 +60,7 @@ classifiedData75 <- knn(train = Glass.training75, test = Glass.test75, cl = Glas
 
 #################   Kör knn 3 med de olika % satserna:  #############################################  
 #Visar i en tabel hur det gick för programmet att gissa. 
-confusion50 <- table(Target = Glass.testLabels50, Predicted = classifiedData75)
+confusion50 <- table(Target = Glass.testLabels50, Predicted = classifiedData50)
 confusion50
 # Visar upp i % hur många gånger programet kunde gissa rätt
 accuracy50 <- (sum(diag(confusion50))/sum(confusion50) )* 100
